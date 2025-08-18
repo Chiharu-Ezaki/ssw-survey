@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>外国人材受入ヒアリングフォーム（特定技能用）</title>
+    <!-- Tailwind CSSとFont Awesomeを読み込む -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* カスタムCSSの定義 */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 2rem;
+        }
+        .form-section {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        .form-section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            border-bottom: 3px solid #d1d5db;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            background-color: #f9fafb;
+            font-size: 1rem;
+            color: #1f2937;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            background-color: #ffffff;
+        }
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .add-button {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+        .add-button:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+        .remove-button {
+            background-color: #ef4444;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+        }
+        .remove-button:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
+        .submit-button {
+            background-color: #10b981;
+            color: #ffffff;
+        }
+        .submit-button:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-item input[type="checkbox"], .radio-item input[type="radio"] {
+            margin-right: 0.5rem;
+            transform: scale(1.2);
+            accent-color: #3b82f6;
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 1.5rem 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center;
+            border: 1px solid #a3e635;
+            font-weight: 600;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .message-box.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="container bg-white rounded-3xl shadow-xl">
+        <h1 class="text-3xl font-bold text-center mb-8">外国人材受入ヒアリングフォーム（特定技能用）</h1>
+        <p class="text-center text-gray-600 mb-8">
+            特定技能制度についてご不明な点がある方は、<a href="https://www.jitco.or.jp/ja/skill/" target="_blank" class="text-blue-600 underline hover:text-blue-800 transition-colors">こちら</a>をご覧ください。
+        </p>
+
+        <!-- Formspreeへの送信設定を追加 -->
+        <form id="hearing-form-main">
+            <!-- 1. 企業基本情報 -->
+            <div class="form-section">
+                <h2 class="form-section-title">1. 企業基本情報</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-group">
+                        <label for="company_name_full">会社名 (正式名称)<span class="text-red-500">*</span></label>
+                        <input type="text" id="company_name_full" name="company_name_full" class="form-input" placeholder="株式会社〇〇" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company_name_kana">会社名 (フリガナ)<span class="text-red-500">*</span></label>
+                        <input type="text" id="company_name_kana" name="company_name_kana" class="form-input" placeholder="カブシキガイシャ〇〇" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company_name_alpha">会社名 (アルファベット表記)</label>
+                        <input type="text" id="company_name_alpha" name="company_name_alpha" class="form-input" placeholder="Co., Ltd.">
+                    </div>
+                    <div class="form-group">
+                        <label for="corporate_number">法人番号<span class="text-red-500">*</span></label>
+                        <input type="text" id="corporate_number" name="corporate_number" class="form-input" placeholder="13桁の数字" required>
+                    </div>
+                    <div class="form-group col-span-2">
+                        <label for="postal-code">本社所在地<span class="text-red-500">*</span></label>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-gray-500">〒</span>
+                            <input type="text" id="postal-code" class="form-input w-36" name="postal_code" placeholder="1234567" required>
+                        </div>
+                        <input type="text" id="headquarters-address" name="headquarters_address" class="form-input" placeholder="例: 東京都千代田区〇〇 1-2-3" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_number">電話番号<span class="text-red-500">*</span></label>
+                        <input type="tel" id="phone_number" name="phone_number" class="form-input" placeholder="ハイフン不要" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">メールアドレス<span class="text-red-500">*</span></label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="info@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="capital">資本金<span class="text-red-500">*</span></label>
+                        <div class="flex items-center space-x-2">
+                            <input type="number" id="capital" name="capital" class="form-input" required>
+                            <span>円</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="representative_info">代表者氏名・役職<span class="text-red-500">*</span></label>
+                        <input type="text" id="representative_info" name="representative_info" class="form-input" placeholder="例: 山田 太郎 / 代表取締役" required>
+                    </div>
+                    <div class="form-group col-span-2">
+                        <label for="business_content">事業内容 (業種・主な仕事内容)<span class="text-red-500">*</span></label>
+                        <input type="text" id="business_content" name="business_content" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- 所属役員 -->
+                <div class="form-group mt-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <label>所属役員 (最大10名)<span class="text-red-500">*</span></label>
+                        <button type="button" class="button add-button" onclick="addExecutive()"><i class="fas fa-plus-circle mr-2"></i>追加</button>
+                    </div>
+                    <div id="executives-container">
+                        <div class="flex flex-wrap items-center space-x-0 md:space-x-2 mb-2 space-y-2 md:space-y-0">
+                            <input type="text" class="form-input flex-1" name="executive_name[]" placeholder="氏名" required>
+                            <input type="text" class="form-input flex-1" name="executive_kana[]" placeholder="フリガナ" required>
+                            <input type="text" class="form-input flex-1" name="executive_position[]" placeholder="役職" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 経営状況 -->
+            <div class="form-section">
+                <h2 class="form-section-title">2. 経営状況<span class="text-red-500">*</span></h2>
+                <div class="form-group">
+                    <label>決算状況 (過去3期分)</label>
+                    <div class="radio-group">
+                        <div class="radio-item"><input type="radio" name="financial_status_option" value="document" id="financial-document" checked required>書類提出</div>
+                        <div class="radio-item"><input type="radio" name="financial_status_option" value="describe" id="financial-describe" required>下記記載</div>
+                    </div>
+                    <div id="financial-fields-container" class="mt-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="text-sm font-medium">直近決算期</label>
+                                <input type="text" class="form-input" name="financial_year_1" placeholder="〇年〇月">
+                                <input type="number" class="form-input mt-2" name="sales_1" placeholder="売上高">
+                                <input type="number" class="form-input mt-2" name="ordinary_profit_1" placeholder="経常利益">
+                                <input type="number" class="form-input mt-2" name="net_income_1" placeholder="当期純利益">
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">直近から1期前</label>
+                                <input type="text" class="form-input" name="financial_year_2" placeholder="〇年〇月">
+                                <input type="number" class="form-input mt-2" name="sales_2" placeholder="売上高">
+                                <input type="number" class="form-input mt-2" name="ordinary_profit_2" placeholder="経常利益">
+                                <input type="number" class="form-input mt-2" name="net_income_2" placeholder="当期純利益">
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">直近から2期前</label>
+                                <input type="text" class="form-input" name="financial_year_3" placeholder="〇年〇月">
+                                <input type="number" class="form-input mt-2" name="sales_3" placeholder="売上高">
+                                <input type="number" class="form-input mt-2" name="ordinary_profit_3" placeholder="経常利益">
+                                <input type="number" class="form-input mt-2" name="net_income_3" placeholder="当期純利益">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 基準適合性に係る事項 -->
+            <div class="form-section">
+                <h2 class="form-section-title">3. 基準適合性に係る事項<span class="text-red-500">*</span></h2>
+                <div class="form-group">
+                    <label>過去の入管法違反・労基法違反の有無<span class="text-red-500">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item"><input type="radio" name="legal_violation" value="yes" id="violation-yes" required>有</div>
+                        <div class="radio-item"><input type="radio" name="legal_violation" value="no" id="violation-no" checked required>無</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>過去1年における特定技能外国人と同種の業務に従事する労働者の離職状況<span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div class="flex items-center space-x-2">
+                            <span>自発的離職者（日本人）：</span>
+                            <input type="number" class="form-input w-20" name="voluntary_leaving_japanese" placeholder="0" min="0" value="0" required>
+                            <span>名</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>自発的離職者（外国人）：</span>
+                            <input type="number" class="form-input w-20" name="voluntary_leaving_foreign" placeholder="0" min="0" value="0" required>
+                            <span>名</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>非自発的離職者（日本人）：</span>
+                            <input type="number" class="form-input w-20" name="involuntary_leaving_japanese" placeholder="0" min="0" value="0" required>
+                            <span>名</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>非自発的離職者（外国人）：</span>
+                            <input type="number" class="form-input w-20" name="involuntary_leaving_foreign" placeholder="0" min="0" value="0" required>
+                            <span>名</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>過去1年間の行方不明者数<span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div class="flex items-center space-x-2">
+                            <span>特定技能生：</span>
+                            <input type="number" class="form-input w-20" name="missing_specified_skill" placeholder="0" min="0" value="0" required>
+                            <span>名</span>
+                            <span class="text-xs text-gray-500">（内、責めに帰すべき理由による行方不明</span>
+                            <input type="number" class="form-input w-16" name="missing_specified_skill_responsible" placeholder="0" min="0" value="0">
+                            <span class="text-xs text-gray-500">名）</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>技能実習生：</span>
+                            <input type="number" class="form-input w-20" name="missing_trainee" placeholder="0" min="0" value="0" required>
+                            <span>名</span>
+                            <span class="text-xs text-gray-500">（内、責めに帰すべき理由による行方不明</span>
+                            <input type="number" class="form-input w-16" name="missing_trainee_responsible" placeholder="0" min="0" value="0">
+                            <span class="text-xs text-gray-500">名）</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 報酬の妥当性について -->
+            <div class="form-section">
+                <h2 class="form-section-title">4. 報酬の妥当性について<span class="text-red-500">*</span></h2>
+                <div class="form-group">
+                    <label for="job_description">特定技能生に求める職務内容・責任の程度<span class="text-red-500">*</span></label>
+                    <textarea id="job_description" class="form-textarea" rows="4" name="job_description" placeholder="例: 一般社員、指導員の指示の元〇〇の基礎的な業務に従事" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>比較対象となる日本人労働者の有無<span class="text-red-500">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item"><input type="radio" name="japanese_worker_comparison" value="yes" id="japanese-worker-yes" required>有</div>
+                        <div class="radio-item"><input type="radio" name="japanese_worker_comparison" value="no" id="japanese-worker-no" checked required>無</div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">※無に選択した場合でも、一番近しい日本人の情報をご記入ください。</p>
+                    <div id="japanese-worker-fields" class="mt-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-sm font-medium">年齢<span class="text-red-500">*</span></label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="number" class="form-input" name="japanese_worker_age" placeholder="年齢" required>
+                                    <span>歳</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">性別<span class="text-red-500">*</span></label>
+                                <div class="radio-group mt-2">
+                                    <div class="radio-item"><input type="radio" name="japanese_gender" value="male" required>男</div>
+                                    <div class="radio-item"><input type="radio" name="japanese_gender" value="female" required>女</div>
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <label class="text-sm font-medium">経験年数<span class="text-red-500">*</span></label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" class="form-input" name="japanese_worker_experience" placeholder="経験年数" required>
+                                    <span>年</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">月給<span class="text-red-500">*</span></label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="number" class="form-input" name="japanese_worker_salary" placeholder="月給" required>
+                                    <span>円</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">その他手当</label>
+                                <div id="other-allowances-container" class="space-y-2">
+                                    <div class="flex items-center space-x-2">
+                                        <input type="text" class="form-input flex-1" name="other_allowance_name[]" placeholder="手当名">
+                                        <input type="text" class="form-input flex-1" name="other_allowance_amount[]" placeholder="金額">
+                                        <span>円</span>
+                                    </div>
+                                </div>
+                                <button type="button" id="add-other-allowance-btn" class="button add-button mt-2"><i class="fas fa-plus-circle mr-2"></i>その他手当を追加</button>
+                            </div>
+                            <div class="col-span-2">
+                                <label class="text-sm font-medium">賃金規定の有無<span class="text-red-500">*</span></label>
+                                <div class="radio-group mt-2">
+                                    <div class="radio-item"><input type="radio" name="wage_regulation" value="yes" id="wage-regulation-yes" required>有</div>
+                                    <div class="radio-item"><input type="radio" name="wage_regulation" value="no" id="wage-regulation-no" checked required>無</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="wage_reason">特定技能者に対する報酬が日本人が従事する場合の報酬額と同等以上で考える理由<span class="text-red-500">*</span></label>
+                    <textarea id="wage_reason" class="form-textarea" rows="4" name="wage_reason" placeholder="例: 日本人は〇〇資格や〇〇資格を持っており、取引先との交渉事なども行っている。また運転免許を取得し、1人で現場に行くことができる、ことなどを考慮すると妥当な金額である。仮に特定技能生が同じ職務に従事する場合も同様に報酬を支払う予定です。" required></textarea>
+                </div>
+            </div>
+
+            <!-- 5. 雇用条件 -->
+            <div class="form-section">
+                <h2 class="form-section-title">5. 雇用条件<span class="text-red-500">*</span></h2>
+                <!-- 雇用開始日 -->
+                <div class="form-group">
+                    <label>雇用開始日<span class="text-red-500">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="start_date_option" value="soon" id="start-date-soon" checked required>
+                            <label for="start-date-soon">最短</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="start_date_option" value="specific" id="start-date-specific" required>
+                            <label for="start-date-specific">指定日</label>
+                        </div>
+                    </div>
+                    <input type="date" class="form-input mt-2 hidden" id="specific-date-input" name="specific_start_date">
+                </div>
+
+                <!-- 職種・区分 -->
+                <div class="form-group">
+                    <label for="field-select">職種 (特定技能告示に該当する分野・業務)<span class="text-red-500">*</span></label>
+                    <select id="field-select" name="job_field" class="form-select" required>
+                        <option value="">分野を選択してください</option>
+                    </select>
+                </div>
+                <div class="form-group hidden" id="category-group">
+                    <label for="category-select">区分<span class="text-red-500">*</span></label>
+                    <select id="category-select" name="job_category" class="form-select" required>
+                        <option value="">区分を選択してください</option>
+                    </select>
+                </div>
+
+                <!-- 建設業向け追加項目 -->
+                <div id="construction-fields" class="hidden">
+                    <div class="form-group">
+                        <label>建設業許可証の有無<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item"><input type="radio" name="construction_permit" value="yes" id="permit-yes" required>有</div>
+                            <div class="radio-item"><input type="radio" name="construction_permit" value="no" id="permit-no" checked required>無</div>
+                        </div>
+                        <p id="permit-note" class="text-sm text-red-600 mt-2 hidden">※建設業許可証がないと契約できません。</p>
+                    </div>
+                    <div id="construction-permit-fields" class="mt-2 hidden">
+                        <div class="form-group">
+                            <label>許可番号</label>
+                            <div class="flex flex-wrap items-center space-x-2 space-y-2 md:space-y-0">
+                                <select class="form-select w-40" id="prefecture-select" name="permit_prefecture">
+                                    <option value="">都道府県</option>
+                                </select>
+                                <span class="whitespace-nowrap">知事 許可（</span>
+                                <select class="form-select w-20" name="permit_type">
+                                    <option value="般">般</option>
+                                    <option value="特">特</option>
+                                </select>
+                                <span class="whitespace-nowrap">ー</span>
+                                <input type="text" class="form-input w-20" name="permit_year" placeholder="">
+                                <span class="whitespace-nowrap">）第</span>
+                                <input type="text" class="form-input flex-1" name="permit_number" placeholder="□□□□">
+                                <span class="whitespace-nowrap">号</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>許可の有効期間</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-center space-x-2">
+                                    <input type="date" class="form-input" name="permit_valid_from_date">
+                                    <span class="whitespace-nowrap">から</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <input type="date" class="form-input" name="permit_valid_to_date">
+                                    <span class="whitespace-nowrap">まで</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>各種協会や関連団体に加入の有無<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item"><input type="radio" name="jac_membership" value="yes" id="jac-yes" required>有</div>
+                            <div class="radio-item"><input type="radio" name="jac_membership" value="no" id="jac-no" checked required>無</div>
+                        </div>
+                        <div id="jac-organization-select-container" class="mt-2 hidden">
+                            <label class="text-sm">加入団体</label>
+                            <select class="form-select" id="jac-organization-select" name="jac_organization">
+                                <option value="">選択してください</option>
+                            </select>
+                            <p class="text-sm text-gray-500 mt-2">※このリストにない場合は「無」を選択してください。</p>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">※加入団体一覧をご覧になりたい方は<a href="https://jac-skill.or.jp/membership/" target="_blank" class="text-blue-600 underline hover:text-blue-800 transition-colors">こちら</a>をご確認ください。</p>
+                    </div>
+                    <div class="form-group">
+                        <label>キャリアアップ事業者IDの有無<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item"><input type="radio" name="ccus_id" value="yes" id="ccus-yes" required>有</div>
+                            <div class="radio-item"><input type="radio" name="ccus_id" value="no" id="ccus-no" checked required>無</div>
+                        </div>
+                        <p id="ccus-note" class="text-sm text-red-600 mt-2 hidden">※キャリアアップへの登録が必要です。</p>
+                        <input type="text" class="form-input mt-2 hidden" id="ccus-id-input" name="ccus_id_number" placeholder="キャリアアップ事業者番号">
+                        <p class="text-sm text-gray-500 mt-2">※キャリアアップシステムについての詳細は<a href="https://www.ccus.jp/p/application" target="_blank" class="text-blue-600 underline hover:text-blue-800 transition-colors">こちら</a>をご確認ください。</p>
+                    </div>
+                    <div class="form-group">
+                        <label>ハローワーク掲載の有無 (建設業)<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item"><input type="radio" name="hello_work" value="yes" id="hello-work-yes" required>有</div>
+                            <div class="radio-item"><input type="radio" name="hello_work" value="no" id="hello-work-no" checked required>無</div>
+                        </div>
+                        <p id="hellowork-note" class="text-sm text-red-600 mt-2 hidden">※建設業で特定技能生を受け入れる場合、ハローワークで求人を出していることが条件となります。求人票登録用の詳細は<a href="https://www.hellowork.mhlw.go.jp/" target="_blank" class="text-blue-600 underline hover:text-blue-800 transition-colors">こちら</a>をご確認ください。</p>
+                    </div>
+                </div>
+
+                <!-- 同意事項 -->
+                <div class="form-group hidden" id="construction-agreements">
+                    <label>同意事項</label>
+                    <div class="flex flex-col space-y-2">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="agreement_salary" id="agreement-salary">
+                            <label for="agreement-salary" class="text-sm">特定技能生に対し、国交省規定に基づき、1年に1回以上昇給させることに同意します。</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="agreement_training" id="agreement-training">
+                            <label for="agreement-training" class="text-sm">従事させる業務区分や工事業等に応じた安全衛生教育及び技能の習得機会を提供します。</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="agreement_compensation" id="agreement-compensation">
+                            <label for="agreement-compensation" class="text-sm">天候などの会社都合で休業とする場合、休業手当を補償することに同意します。</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="agreement_ccus" id="agreement-ccus">
+                            <label for="agreement-ccus" class="text-sm">従事させる特定技能生をキャリアアップシステムに登録させることに同意します。</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 職務内容・就労場所 -->
+                <div class="form-group">
+                    <label for="work_details">想定する具体的な作業内容<span class="text-red-500">*</span></label>
+                    <textarea id="work_details" class="form-textarea" rows="4" name="work_details" placeholder="例: 〇〇の製造ラインにおける機械操作・検品・梱包作業" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>就労予定の事業所の名称・所在地<span class="text-red-500">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="workplace_option" value="same" id="workplace-same" checked required>
+                            <label for="workplace-same">本社と同じ</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="workplace_option" value="other" id="workplace-other" required>
+                            <label for="workplace-other">その他</label>
+                        </div>
+                    </div>
+                    <div id="other-workplace-fields" class="mt-4 hidden">
+                        <label for="workplace-postal-code" class="text-sm font-medium">郵便番号</label>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-gray-500">〒</span>
+                            <input type="text" id="workplace-postal-code" class="form-input w-36" name="workplace_postal_code" placeholder="ハイフン無">
+                        </div>
+                        <input type="text" class="form-input mb-2" name="workplace_name" placeholder="事業所名">
+                        <input type="text" class="form-input mb-2" name="workplace_address" id="workplace-address" placeholder="所在地">
+                        <input type="tel" class="form-input" name="workplace_phone" id="workplace-phone" placeholder="ハイフン無">
+                    </div>
+                </div>
+
+                <!-- 勤務時間・休憩 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-group">
+                        <label>始業時間<span class="text-red-500">*</span></label>
+                        <div class="flex items-center space-x-2">
+                            <input type="number" name="start_hour" class="form-input w-24" placeholder="00" min="0" max="23" required>
+                            <span>:</span>
+                            <select name="start_minute" class="form-select w-24" id="start-minute-select" required>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>終業時間<span class="text-red-500">*</span></label>
+                        <div class="flex items-center space-x-2">
+                            <input type="number" name="end_hour" class="form-input w-24" placeholder="00" min="0" max="23" required>
+                            <span>:</span>
+                            <select name="end_minute" class="form-select w-24" id="end-minute-select" required>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>1日の所定労働時間数<span class="text-red-500">*</span></label>
+                        <div class="flex items-center space-x-2">
+                            <input type="number" class="form-input w-24" id="daily-working-hours-hour" name="daily_working_hours_hour" placeholder="00" min="0" required>
+                            <span>時間</span>
+                            <select class="form-select w-24" id="daily-working-hours-minute-select" name="daily_working_hours_minute" required>
+                            </select>
+                            <span>分</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>残業の有無<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item"><input type="radio" name="overtime_option" value="yes" id="overtime-yes" required>有</div>
+                            <div class="radio-item"><input type="radio" name="overtime_option" value="no" id="overtime-no" checked required>無</div>
+                        </div>
+                        <div id="overtime-fields" class="mt-2 hidden">
+                            <div class="flex items-center space-x-2">
+                                <span class="whitespace-nowrap">追記平均</span>
+                                <input type="number" class="form-input w-40" name="monthly_overtime_hours" placeholder="月の平均残業時間" step="0.5" min="0">
+                                <span>時間</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>変形労働制の有無<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="variable_work_system" value="yes" id="variable-work-system-yes" required>
+                                <span>有</span>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="variable_work_system" value="no" id="variable-work-system-no" checked required>
+                                <span>無</span>
+                            </div>
+                        </div>
+                        <div id="variable-work-system-fields" class="mt-2 hidden">
+                            <div class="flex items-center space-x-2">
+                                <span class="whitespace-nowrap">〇〇単位</span>
+                                <select class="form-select" name="variable_work_unit">
+                                    <option value="1年">1年</option>
+                                    <option value="1カ月">1カ月</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="break-time-select">休憩時間<span class="text-red-500">*</span></label>
+                        <select class="form-select" id="break-time-select" name="break_time" required>
+                            <option value="">選択してください</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 休日・休暇 -->
+                <div class="form-group">
+                    <label>決まった休み<span class="text-red-500">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" name="regular_holiday" value="sunday" required>日曜日</div>
+                        <div class="checkbox-item"><input type="checkbox" name="regular_holiday" value="saturday" required>土曜日</div>
+                        <div class="checkbox-item"><input type="checkbox" name="regular_holiday" value="public" required>日本の国民の休日</div>
+                        <div class="checkbox-item"><input type="checkbox" name="regular_holiday" value="company" required>会社指定日</div>
+                        <div class="checkbox-item"><input type="checkbox" name="regular_holiday" value="other" id="other-holiday-checkbox" required>その他</div>
+                    </div>
+                    <input type="text" class="form-input mt-2 hidden" id="other-holiday-input" name="other_holiday_text" placeholder="例: 〇曜日、〇曜日">
+                </div>
+                <div class="form-group">
+                    <label>その他の休暇</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item flex-1"><input type="checkbox" name="other_vacation_summer" value="summer" id="vacation-summer">夏季</div>
+                        <div class="checkbox-item flex-1"><input type="checkbox" name="other_vacation_gw" value="gw" id="vacation-gw">GW</div>
+                        <div class="checkbox-item flex-1"><input type="checkbox" name="other_vacation_new_year" value="new_year" id="vacation-new_year">年末年始</div>
+                        <div class="checkbox-item flex-1"><input type="checkbox" name="other_vacation_other" value="other" id="other-vacation-checkbox">その他</div>
+                    </div>
+                    <div id="vacation-fields-container" class="mt-2"></div>
+                </div>
+                <div class="form-group">
+                    <label for="annual-holidays">年間休日日数<span class="text-red-500">*</span></label>
+                    <div class="flex items-center space-x-2">
+                        <input type="number" class="form-input w-40" id="annual-holidays" name="annual_holidays" placeholder="日数" min="0" max="365" required>
+                        <span>日</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>1年間の平均所定労働時間数（年度により変動）<span class="text-red-500">*</span></label>
+                    <p id="annual-working-hours" class="form-input bg-gray-200">00:00時間</p>
+                </div>
+
+
+                <!-- 賃金関連 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-group">
+                        <label for="payment-close-day-select">賃金締め日<span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <span class="mr-2">毎月</span>
+                            <select class="form-select w-40" id="payment-close-day-select" name="payment_close_day" required>
+                                <option value="">選択してください</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment-day-select">賃金支払日<span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <span class="mr-2">毎月</span>
+                            <select class="form-select w-40" id="payment-day-select" name="payment_day" required>
+                                <option value="">選択してください</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 昇給・賞与・退職金 -->
+                <div class="form-group">
+                    <label>昇給<span class="text-red-500">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item"><input type="radio" name="raise_option" value="yes" id="raise-yes" required>有</div>
+                        <div class="radio-item"><input type="radio" name="raise_option" value="no" id="raise-no" checked required>無</div>
+                    </div>
+                    <div id="raise-fields" class="mt-2 hidden">
+                        <input type="text" class="form-input mb-2" name="raise_time" placeholder="例）1年に1度" required>
+                        <input type="text" class="form-input" name="raise_amount" placeholder="金額等（例）5000円/月の昇給" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>賞与<span class="text-red-500">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item"><input type="radio" name="bonus_option" value="yes" id="bonus-yes" required>有</div>
+                        <div class="radio-item"><input type="radio" name="bonus_option" value="no" id="bonus-no" checked required>無</div>
+                    </div>
+                    <div id="bonus-fields" class="mt-2 hidden">
+                        <input type="text" class="form-input mb-2" name="bonus_time" placeholder="例）年2回（6月、12月）" required>
+                        <input type="text" class="form-input" name="bonus_amount" placeholder="金額等（会社の業績及び本人評価により決定）" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>退職金<span class="text-red-500">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item"><input type="radio" name="severance_option" value="yes" id="severance-yes" required>有</div>
+                        <div class="radio-item"><input type="radio" name="severance_option" value="no" id="severance-no" checked required>無</div>
+                    </div>
+                    <div id="severance-fields" class="mt-2 hidden">
+                        <input type="text" class="form-input mb-2" name="severance_time" placeholder="時期" required>
+                        <input type="text" class="form-input" name="severance_amount" placeholder="金額等" required>
+                    </div>
+                </div>
+
+                <!-- 社会保険 -->
+                <div class="form-group">
+                    <label>社会保険加入予定の有無<span class="text-red-500">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" name="social_insurance" value="health" id="insurance-health" required>健康保険</div>
+                        <div class="checkbox-item"><input type="checkbox" name="social_insurance" value="pension" id="insurance-pension" required>厚生年金</div>
+                        <div class="checkbox-item"><input type="checkbox" name="social_insurance" value="employment" id="insurance-employment" required>雇用保険</div>
+                        <div class="checkbox-item"><input type="checkbox" name="social_insurance" value="labor" id="insurance-labor" required>労災保険</div>
+                        <div class="checkbox-item"><input type="checkbox" name="social_insurance" value="national_pension" id="insurance-national_pension" required>国民年金</div>
+                        <div class="checkbox-item"><input type="checkbox" name="social_insurance" value="national_health" id="insurance-national_health" required>国民健康保険</div>
+                        <div class="checkbox-item"><input type="checkbox" name="social_insurance" value="other" id="other-social-insurance-checkbox">その他</div>
+                    </div>
+                    <div id="other-social-insurance-container" class="mt-2 hidden">
+                        <!-- 動的に追加される項目 -->
+                    </div>
+                    <button type="button" id="add-other-social-insurance-btn" class="button add-button mt-2 hidden"><i class="fas fa-plus-circle mr-2"></i>追加</button>
+                </div>
+
+                <!-- 基本賃金 -->
+                <div class="form-group">
+                    <label>基本賃金<span class="text-red-500">*</span></label>
+                    <div class="radio-group mb-2">
+                        <div class="radio-item"><input type="radio" name="basic_wage_type" value="monthly" id="wage-monthly" checked required>月給</div>
+                        <div class="radio-item"><input type="radio" name="basic_wage_type" value="daily" id="wage-daily" required>日給</div>
+                        <div class="radio-item"><input type="radio" name="basic_wage_type" value="hourly" id="wage-hourly" required>時給</div>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="number" class="form-input" id="basic-wage-amount" name="basic_wage_amount" placeholder="0000" required>
+                        <span class="ml-2">円</span>
+                    </div>
+                    <p id="wage-calculation-note" class="text-sm text-gray-500 mt-2"></p>
+                </div>
+
+                <!-- 諸手当 -->
+                <div class="form-group">
+                    <label>諸手当<span class="text-red-500">*</span></label>
+                    <div class="radio-group mb-2">
+                        <div class="radio-item"><input type="radio" name="allowance_option" value="yes" id="allowance-yes" required>有</div>
+                        <div class="radio-item"><input type="radio" name="allowance_option" value="no" id="allowance-no" checked required>無</div>
+                    </div>
+                    <div id="allowances-container" class="mt-2 hidden">
+                        <div class="allowance-item flex flex-wrap items-center space-x-0 md:space-x-2 mb-2 space-y-2 md:space-y-0">
+                            <input type="text" class="form-input flex-1" name="allowance_name[]" placeholder="〇〇手当" required>
+                            <input type="text" class="form-input flex-1" name="allowance_amount[]" placeholder="〇〇円" required>
+                            <input type="text" class="form-input flex-1" name="allowance_calculation[]" placeholder="計算方法・例）固定" required>
+                        </div>
+                    </div>
+                    <button type="button" class="button add-button mt-2 hidden" id="add-allowance-btn"><i class="fas fa-plus-circle mr-2"></i>追加</button>
+                </div>
+
+                <!-- 固定残業 -->
+                <div class="form-group">
+                    <label>固定残業<span class="text-red-500">*</span></label>
+                    <div class="radio-group mb-2">
+                        <div class="radio-item"><input type="radio" name="fixed_overtime" value="yes" id="fixed-overtime-yes" required>有</div>
+                        <div class="radio-item"><input type="radio" name="fixed_overtime" value="no" id="fixed-overtime-no" checked required>無</div>
+                    </div>
+                    <div id="fixed-overtime-fields" class="mt-2 hidden">
+                        <div class="flex items-center space-x-2">
+                            <input type="number" class="form-input w-40" name="fixed_overtime_amount" placeholder="〇〇〇" required>
+                            <span>円</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">
+                            支給要件：時間外労働の有無に関わらず、
+                            <span class="whitespace-nowrap">追記平均</span>
+                            <input type="number" class="form-input w-20 inline-block mx-1" name="fixed_overtime_hours" placeholder="〇〇" id="fixed-overtime-hours-input" step="0.5" required>
+                            時間分の時間外手当として支給。
+                            <span id="fixed-overtime-exceeds-hours" class="font-bold text-blue-600">〇〇</span>
+                            時間を超える時間外労働分についての割増賃金は追加で支給。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 給料からの控除 -->
+                <div class="form-group">
+                    <label>給料からの控除（基本控除<税金・社会保険・雇用>以外）</label>
+                    <div class="checkbox-group mb-2">
+                        <div class="checkbox-item"><input type="checkbox" name="deduction_item" value="housing" id="housing-deduction">住居費</div>
+                        <div class="checkbox-item"><input type="checkbox" name="deduction_item" value="utilities" id="utilities-deduction">水道光熱費</div>
+                        <div class="checkbox-item"><input type="checkbox" name="deduction_item" value="communication" id="communication-deduction">通信費</div>
+                        <div class="checkbox-item"><input type="checkbox" name="deduction_item" value="other_deduction" id="other-deduction-checkbox">その他</div>
+                    </div>
+                    <div id="deduction-amounts" class="mt-2 flex flex-col space-y-2"></div>
+                </div>
+            </div>
+
+            <!-- 6. 求める人物像情報 -->
+            <div class="form-section">
+                <h2 class="form-section-title">6. 求める人物像情報<span class="text-red-500">*</span></h2>
+                <p class="text-sm text-gray-500 mb-4">※選択内容が細かいと人が集まりづらくなるため、ご注意ください。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-group">
+                        <label>性別<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item"><input type="radio" name="desired_gender" value="male" required>男</div>
+                            <div class="radio-item"><input type="radio" name="desired_gender" value="female" required>女</div>
+                            <div class="radio-item"><input type="radio" name="desired_gender" value="any" checked required>不問</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>年齢幅<span class="text-red-500">*</span></label>
+                        <div class="flex items-center space-x-2">
+                            <input type="number" class="form-input w-20" id="age_min" name="age_min" placeholder="18" min="0">
+                            <span>歳</span>
+                            <span class="mr-2">～</span>
+                            <input type="number" class="form-input w-20" id="age_max" name="age_max" placeholder="60" min="0">
+                            <span>歳</span>
+                        </div>
+                        <div class="radio-item mt-2">
+                            <input type="radio" name="desired_age" value="any" checked>
+                            <span>不問</span>
+                        </div>
+                    </div>
+                    <div class="form-group col-span-2">
+                        <label>国籍<span class="text-red-500">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item"><input type="checkbox" name="desired_nationality" value="any" id="nationality-any" checked required>不問</div>
+                            <div class="checkbox-item"><input type="checkbox" name="desired_nationality" value="indonesia" required>インドネシア</div>
+                            <div class="checkbox-item"><input type="checkbox" name="desired_nationality" value="vietnam" required>ベトナム</div>
+                            <div class="checkbox-item"><input type="checkbox" name="desired_nationality" value="cambodia" required>カンボジア</div>
+                            <div class="checkbox-item"><input type="checkbox" name="desired_nationality" value="nepal" required>ネパール</div>
+                            <div class="checkbox-item"><input type="checkbox" name="desired_nationality" value="myanmar" required>ミャンマー</div>
+                            <div class="checkbox-item"><input type="checkbox" name="desired_nationality" value="other" id="nationality-other-checkbox">その他</div>
+                        </div>
+                        <div id="other-nationality-container" class="mt-2 hidden">
+                            <input type="text" class="form-input" name="other_nationality_text" placeholder="例: フィリピン, タイ">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>業務経験<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item"><input type="radio" name="work_experience" value="required" required>必須</div>
+                            <div class="radio-item"><input type="radio" name="work_experience" value="preferable" required>尚可</div>
+                            <div class="radio-item"><input type="radio" name="work_experience" value="unnecessary" checked required>不問</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>運転免許<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item"><input type="radio" name="driver_license" value="japan_only" required>日本の運転免許取得者のみ</div>
+                            <div class="radio-item"><input type="radio" name="driver_license" value="japan_or_native" required>日本もしくは母国での運転免許取得者</div>
+                            <div class="radio-item"><input type="radio" name="driver_license" value="unnecessary" checked required>不問</div>
+                        </div>
+                        <div id="license-required-fields" class="mt-2 hidden">
+                            <p class="text-sm text-gray-500 mt-2">
+                                ※母国での免許取得者については外免切替を行う必要があり、申請から試験合格まで数カ月を要する場合があります。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group col-span-2">
+                        <label>日本語レベル<span class="text-red-500">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item"><input type="radio" name="japanese_level" value="any" checked required>不問</div>
+                            <div class="radio-item"><input type="radio" name="japanese_level" value="N4" required>N4レベル以上</div>
+                            <div class="radio-item"><input type="radio" name="japanese_level" value="N3" required>N3レベル以上</div>
+                            <div class="radio-item"><input type="radio" name="japanese_level" value="N2" required>N2レベル以上</div>
+                            <div class="radio-item"><input type="radio" name="japanese_level" value="N1" required>N1レベル以上</div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">※認定の目安は<a href="https://www.jlpt.jp/about/levelsummary.html" target="_blank" class="text-blue-600 underline hover:text-blue-800 transition-colors">こちら</a>をご確認ください。</p>
+                    </div>
+                    <div class="form-group col-span-2">
+                        <label>その他備考</label>
+                        <textarea class="form-textarea" rows="2" name="other_notes" placeholder="例: 寮費補助あり、自転車通勤可"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 7. 同意事項 -->
+            <div class="form-section">
+                <h2 class="form-section-title">7. 同意事項<span class="text-red-500">*</span></h2>
+                <div class="flex flex-col space-y-2">
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_salary" id="final-agreement-1" required>
+                        <label for="final-agreement-1" class="text-sm">給与は日本人と同等以上の報酬水準を保証する<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_harassment" id="final-agreement-2" required>
+                        <label for="final-agreement-2" class="text-sm">職場および寮におけるハラスメント防止策を講じる<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_housing" id="final-agreement-3" required>
+                        <label for="final-agreement-3" class="text-sm">特定技能生の住居費を手取り支給額の1/3以下に抑え、1人当たりの居室面積をおおむね7.5㎡（約4.5畳）以上とする<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_supplies" id="final-agreement-4" required>
+                        <label for="final-agreement-4" class="text-sm">生活に必要な家具、家電、布団、キッチン用具、および1週間分の生活備品を会社で準備する<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_commute" id="final-agreement-5" required>
+                        <label for="final-agreement-5" class="text-sm">住居から会社までの通勤時間が徒歩15分を超える場合、自転車等の移動手段を提供する<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_leave" id="final-agreement-6" required>
+                        <label for="final-agreement-6" class="text-sm">帰国などの長期休暇を希望する場合、最大限考慮する<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_support_plan" id="final-agreement-7" required>
+                        <label for="final-agreement-7" class="text-sm">支援計画の内容を理解し、その履行に努める<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_work_hours" id="final-agreement-8" required>
+                        <label for="final-agreement-8" class="text-sm">適切な労働時間管理（残業・休日出勤は労働基準法に準拠）を行う<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_guidelines" id="final-agreement-9" required>
+                        <label for="final-agreement-9" class="text-sm">出入国在留管理庁の運用方針・ガイドラインを遵守する<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_laws" id="final-agreement-10" required>
+                        <label for="final-agreement-10" class="text-sm">労働基準法、最低賃金法、労働安全衛生法など国内の関連法規を遵守する<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="final_agreement_social_insurance" id="final-agreement-11" required>
+                        <label for="final-agreement-11" class="text-sm">法人の場合、社会保険（健康保険、厚生年金、雇用保険）を適用し、個人事業主の場合は、国民健康保険、国民年金の支払いを定期的に管理する<span class="text-red-500">*</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. 担当者情報 -->
+            <div class="form-section">
+                <h2 class="form-section-title">8. 担当者情報<span class="text-red-500">*</span></h2>
+                <div class="form-group">
+                    <label>申請窓口担当者<span class="text-red-500">*</span></label>
+                    <div class="radio-group mb-2">
+                        <div class="radio-item"><input type="radio" name="contact_person_option" value="same_as_rep" id="contact-same-as-rep" required>代表者と同じ</div>
+                        <div class="radio-item"><input type="radio" name="contact_person_option" value="different" id="contact-different" checked required>その他</div>
+                    </div>
+                    <div id="contact-person-fields" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label for="contact_name">氏名<span class="text-red-500">*</span></label>
+                            <input type="text" id="contact_name" class="form-input" name="contact_name" placeholder="氏名" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_department">部署名・役職<span class="text-red-500">*</span></label>
+                            <input type="text" id="contact_department" class="form-input" name="contact_department" placeholder="部署名・役職" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_phone">電話番号<span class="text-red-500">*</span></label>
+                            <input type="tel" id="contact_phone" class="form-input" name="contact_phone" placeholder="ハイフン無" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_email">メールアドレス<span class="text-red-500">*</span></label>
+                            <input type="email" id="contact_email" class="form-input" name="contact_email" placeholder="メールアドレス" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="w-full button submit-button shadow-lg">
+                <i class="fas fa-paper-plane mr-2"></i>送信
+            </button>
+            <p class="text-center text-sm text-gray-500 mt-4">
+                ※送信前に、入力内容に誤りがないか再度ご確認ください。
+            </p>
+        </form>
+    </div>
+
+    <!-- フォーム送信成功時に表示されるメッセージボックス -->
+    <div id="success-message-box" class="message-box">
+        <p>フォームが正常に送信されました！</p>
+    </div>
+
+    <script>
+        // 職種と区分の連動データ
+        const categories = {
+            "介護": ["身体介護等"],
+            "ビルクリーニング": ["建築物内部の清掃"],
+            "工業製品製造業": ["電気電子機器組立て", "金属表面処理", "紙器・段ボール箱製造", "コンクリート製品製造区分", "RPF製造区分", "陶磁器製品製造区分", "印刷・製本区分", "紡織製品製造区分", "縫製区分"],
+            "建設": ["土木", "建築", "ライフライン・設備"],
+            "造船・舶用工業": ["造船", "舶用機械", "舶用電気電子機器"],
+            "自動車整備": ["自動車の日常点検整備、定期点検整備、特定整備、特定整備に付随する業務全般"],
+            "航空": ["グランドハンドリング（旅客・手荷物・貨物・ランプ等の地上支援）", "空機整備（機体・装備品等の整備支援）"],
+            "宿泊": ["旅館やホテルにおけるフロント、企画・広報、接客及びレストランサービス等の宿泊サービスの提供業務全般"],
+            "農業": ["耕種農業", "畜産農業"],
+            "漁業": ["漁業", "養殖業"],
+            "飲食料品製造業": ["飲食料品製造業全般"],
+            "外食業": ["調理、接客、店舗管理 等全般"],
+            "林業": ["森林において樹木を育てて丸太を生産し、苗木を植える等の作業全般"],
+            "木材産業": ["木・材・木製品の製造・加工全般"],
+            "自動車運送業": ["バス運転者", "タクシー運転者", "トラック運転者"],
+            "鉄道": ["軌道整備", "電気設備整備", "車両整備", "車両製造", "運輸係員"]
+        };
+        
+        // 都道府県のデータ
+        const prefectures = [
+            "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県", "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
+            "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県", "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
+            "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
+            "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"
+        ];
+
+        // 建設業者団体 (ユーザー提供のExcelシートのデータに基づいています)
+        const jacOrganizations = [
+            "（一社）JBN・全国工務店協会",
+            "（一社）情報通信エンジニアリング協会",
+            "全国圧接業協同組合連合会",
+            "全国管工事業協同組合連合会",
+            "（一社）全国基礎工事業団体連合会",
+            "（一社）全国建設室内工事業協会",
+            "全国建設労働組合総連合",
+            "（一社）全国建築測量協会",
+            "（一社）全国コンクリート圧送事業団体連合会",
+            "全国サイディング事業協同組合連合会",
+            "（一社）全国住宅産業地域活性化協議会",
+            "（一社）全国タイル業協会",
+            "（一社）全国ダクト工業団体連合会",
+            "（公社）全国鉄筋工事業協会",
+            "（一社）全国特定法面保護協会",
+            "（一社）全国防水工事業協会",
+            "（一社）全日本瓦工事業連盟",
+            "（一社）全日本漁港建設協会",
+            "（一社）日本ウレタン断熱協会",
+            "日本外壁仕上業協同組合連合会",
+            "（一社）日本型枠工事業協会",
+            "（一社）日本機械土工協会",
+            "（一社）日本基礎建設協会",
+            "（一社）日本金属屋根協会",
+            "（一社）日本空調衛生工事業協会",
+            "日本建設インテリア事業協同組合連合会",
+            "（一社）日本建設機械レンタル協会",
+            "（一社）日本建設躯体工事業団体連合会",
+            "（一社）日本建築板金協会",
+            "日本港湾空港建設協会連合会",
+            "（一社）日本在来工法住宅協会",
+            "（一社）日本左官業組合連合会",
+            "日本室内装飾事業協同組合連合会",
+            "日本住宅パネル工業協同組合",
+            "（公社）日本推進技術協会",
+            "（一社）日本造園組合連合会",
+            "（一社）日本タイル煉瓦工事工業会",
+            "（一社）日本築炉人材育成協会",
+            "（一社）日本ツーバイフォー建築協会",
+            "（一社）日本塗装工業会",
+            "（一社）日本建設業連合会",
+            "（一社）日本道路建設業協会",
+            "（一社）日本発破・破砕協会",
+            "（一社）日本保温保冷工業協会",
+            "（一社）日本冷凍空調設備工業連合会",
+            "（一社）プレストレスト・コンクリート工事業協会",
+            "（一社）SIEN",
+            "（一社）全国建設業協会",
+            "（一社）全国中小建設業協会",
+            "（一社）全国中小建設工事業団体連合会",
+            "（一社）マンション計画修繕施工協会"
+        ];
+        
+        // --- フォームの動的な表示・非表示制御関数 ---
+        
+        /**
+         * 決算状況の表示切り替え
+         */
+        document.querySelectorAll('input[name="financial_status_option"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const container = document.getElementById('financial-fields-container');
+                if (e.target.value === 'describe') {
+                    container.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                }
+            });
+        });
+
+        /**
+         * 雇用開始日の表示切り替え
+         */
+        document.querySelectorAll('input[name="start_date_option"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const specificDateInput = document.getElementById('specific-date-input');
+                if (e.target.value === 'specific') {
+                    specificDateInput.classList.remove('hidden');
+                    specificDateInput.setAttribute('required', 'required');
+                } else {
+                    specificDateInput.classList.add('hidden');
+                    specificDateInput.removeAttribute('required');
+                }
+            });
+        });
+
+        /**
+         * 就労予定事業所の表示切り替え
+         */
+        document.querySelectorAll('input[name="workplace_option"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const otherWorkplaceFields = document.getElementById('other-workplace-fields');
+                if (e.target.value === 'other') {
+                    otherWorkplaceFields.classList.remove('hidden');
+                } else {
+                    otherWorkplaceFields.classList.add('hidden');
+                }
+            });
+        });
+
+        /**
+         * 残業の有無による表示切り替え
+         */
+        document.querySelectorAll('input[name="overtime_option"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const fields = document.getElementById('overtime-fields');
+                if (e.target.value === 'yes') {
+                    fields.classList.remove('hidden');
+                } else {
+                    fields.classList.add('hidden');
+                }
+            });
+        });
+
+        /**
+         * 変形労働制の表示切り替え
+         */
+        document.querySelectorAll('input[name="variable_work_system"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const fields = document.getElementById('variable-work-system-fields');
+                if (e.target.value === 'yes') {
+                    fields.classList.remove('hidden');
+                } else {
+                    fields.classList.add('hidden');
+                }
+            });
+        });
+
+        /**
+         * 昇給・賞与・退職金の表示切り替え
+         */
+        document.querySelectorAll('input[name="raise_option"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const fields = document.getElementById('raise-fields');
+                if (e.target.value === 'yes') { fields.classList.remove('hidden'); } else { fields.classList.add('hidden'); }
+            });
+        });
+        document.querySelectorAll('input[name="bonus_option"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const fields = document.getElementById('bonus-fields');
+                if (e.target.value === 'yes') { fields.classList.remove('hidden'); } else { fields.classList.add('hidden'); }
+            });
+        });
+        document.querySelectorAll('input[name="severance_option"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const fields = document.getElementById('severance-fields');
+                if (e.target.value === 'yes') { fields.classList.remove('hidden'); } else { fields.classList.add('hidden'); }
+            });
+        });
+
+        /**
+         * 諸手当の表示切り替え
+         */
+        document.querySelectorAll('input[name="allowance_option"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const container = document.getElementById('allowances-container');
+                const addButton = document.getElementById('add-allowance-btn');
+                if (e.target.value === 'yes') {
+                    container.classList.remove('hidden');
+                    addButton.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                    addButton.classList.add('hidden');
+                    // 非表示にする際は入力項目をクリア
+                    while (container.children.length > 1) {
+                        container.removeChild(container.lastChild);
+                    }
+                }
+            });
+        });
+        document.getElementById('add-allowance-btn').addEventListener('click', () => {
+            const container = document.getElementById('allowances-container');
+            const newAllowance = document.createElement('div');
+            newAllowance.className = 'allowance-item flex flex-wrap items-center space-x-0 md:space-x-2 mb-2 space-y-2 md:space-y-0';
+            newAllowance.innerHTML = `
+                <input type="text" class="form-input flex-1" name="allowance_name[]" placeholder="〇〇手当" required>
+                <input type="text" class="form-input flex-1" name="allowance_amount[]" placeholder="〇〇円" required>
+                <input type="text" class="form-input flex-1" name="allowance_calculation[]" placeholder="計算方法・例）固定" required>
+                <button type="button" class="button remove-button" onclick="removeParent(this)"><i class="fas fa-trash-alt"></i></button>
+            `;
+            container.appendChild(newAllowance);
+        });
+
+        /**
+         * 固定残業の表示切り替え
+         */
+        document.querySelectorAll('input[name="fixed_overtime"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const fields = document.getElementById('fixed-overtime-fields');
+                const hoursInput = document.getElementById('fixed-overtime-hours-input');
+                if (e.target.value === 'yes') {
+                    fields.classList.remove('hidden');
+                } else {
+                    fields.classList.add('hidden');
+                }
+            });
+        });
+
+        /**
+         * 担当者情報の表示切り替え
+         */
+        document.querySelectorAll('input[name="contact_person_option"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const fields = document.getElementById('contact-person-fields');
+                if (e.target.value === 'different') {
+                    fields.classList.remove('hidden');
+                } else {
+                    fields.classList.add('hidden');
+                }
+            });
+        });
+
+        /**
+         * 建設業向け項目の表示切り替え
+         */
+        const fieldSelect = document.getElementById('field-select');
+        const categoryGroup = document.getElementById('category-group');
+        const categorySelect = document.getElementById('category-select');
+        const constructionFields = document.getElementById('construction-fields');
+        const constructionAgreements = document.getElementById('construction-agreements');
+        const permitNote = document.getElementById('permit-note');
+        const ccusNote = document.getElementById('ccus-note');
+        const helloworkNote = document.getElementById('hellowork-note');
+        const constructionPermitFields = document.getElementById('construction-permit-fields');
+        const jacYesRadio = document.getElementById('jac-yes');
+        const jacNoRadio = document.getElementById('jac-no');
+        const jacOrganizationContainer = document.getElementById('jac-organization-select-container');
+
+        fieldSelect.addEventListener('change', (e) => {
+            const selectedField = e.target.value;
+            categorySelect.innerHTML = '<option value="">区分を選択してください</option>';
+            
+            if (selectedField && categories[selectedField]) {
+                categories[selectedField].forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category;
+                    option.textContent = category;
+                    categorySelect.appendChild(option);
+                });
+                categoryGroup.classList.remove('hidden');
+            } else {
+                categoryGroup.classList.add('hidden');
+            }
+
+            if (selectedField === '建設') {
+                constructionFields.classList.remove('hidden');
+                constructionAgreements.classList.remove('hidden');
+            } else {
+                constructionFields.classList.add('hidden');
+                constructionAgreements.classList.add('hidden');
+                permitNote.classList.add('hidden');
+                ccusNote.classList.add('hidden');
+                helloworkNote.classList.add('hidden');
+                constructionPermitFields.classList.add('hidden');
+                jacOrganizationContainer.classList.add('hidden');
+                document.getElementById('permit-no').checked = true;
+                jacNoRadio.checked = true;
+            }
+        });
+
+        // 建設業のラジオボタンによる補足表示
+        document.querySelectorAll('input[name="construction_permit"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'no') {
+                    permitNote.classList.remove('hidden');
+                    constructionPermitFields.classList.add('hidden');
+                } else {
+                    permitNote.classList.add('hidden');
+                    constructionPermitFields.classList.remove('hidden');
+                }
+            });
+        });
+        document.querySelectorAll('input[name="ccus_id"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const ccusIdInput = document.getElementById('ccus-id-input');
+                if (e.target.value === 'no') {
+                    ccusNote.classList.remove('hidden');
+                    ccusIdInput.classList.add('hidden');
+                } else {
+                    ccusNote.classList.add('hidden');
+                    ccusIdInput.classList.remove('hidden');
+                }
+            });
+        });
+        document.querySelectorAll('input[name="hello_work"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'no') { helloworkNote.classList.remove('hidden'); } else { helloworkNote.classList.add('hidden'); }
+            });
+        });
+
+        // 各種協会や関連団体に加入の有無の表示切り替え
+        jacYesRadio.addEventListener('change', () => {
+            if (jacYesRadio.checked) {
+                jacOrganizationContainer.classList.remove('hidden');
+            } else {
+                jacOrganizationContainer.classList.add('hidden');
+            }
+        });
+        jacNoRadio.addEventListener('change', () => {
+            if (jacNoRadio.checked) {
+                jacOrganizationContainer.classList.add('hidden');
+            }
+        });
+        
+        /**
+         * 求める人物像 - その他の国籍の表示切り替え
+         */
+        const nationalityAny = document.getElementById('nationality-any');
+        const nationalityCheckboxes = document.querySelectorAll('input[name="desired_nationality"]:not(#nationality-any)');
+        const otherNationalityContainer = document.getElementById('other-nationality-container');
+        
+        nationalityAny.addEventListener('change', (e) => {
+            nationalityCheckboxes.forEach(cb => {
+                cb.disabled = e.target.checked;
+                if (e.target.checked) cb.checked = false;
+            });
+            if (e.target.checked) {
+                otherNationalityContainer.classList.add('hidden');
+            }
+        });
+
+        nationalityCheckboxes.forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    nationalityAny.checked = false;
+                }
+            });
+        });
+
+        document.getElementById('nationality-other-checkbox').addEventListener('change', (e) => {
+            if (e.target.checked) {
+                otherNationalityContainer.classList.remove('hidden');
+            } else {
+                otherNationalityContainer.classList.add('hidden');
+            }
+        });
+        
+        /**
+         * 求める人物像 - 運転免許の表示切り替え
+         */
+        document.querySelectorAll('input[name="driver_license"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const fields = document.getElementById('license-required-fields');
+                if (e.target.value === 'japan_or_native') { fields.classList.remove('hidden'); } else { fields.classList.add('hidden'); }
+            });
+        });
+
+        /**
+         * 固定残業時間を入力フィールドに反映
+         */
+        document.getElementById('fixed-overtime-hours-input').addEventListener('input', (e) => {
+            document.getElementById('fixed-overtime-exceeds-hours').textContent = e.target.value;
+        });
+        
+        /**
+         * 年齢幅の入力欄の有効化/無効化
+         */
+        const ageMinInput = document.getElementById('age_min');
+        const ageMaxInput = document.getElementById('age_max');
+        const desiredAgeRadios = document.querySelectorAll('input[name="desired_age"]');
+
+        desiredAgeRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'any') {
+                    ageMinInput.disabled = true;
+                    ageMaxInput.disabled = true;
+                    ageMinInput.value = '';
+                    ageMaxInput.value = '';
+                } else {
+                    ageMinInput.disabled = false;
+                    ageMaxInput.disabled = false;
+                    
+                    // 必須属性を動的に設定
+                    if (e.target.checked) {
+                        ageMinInput.setAttribute('required', 'required');
+                        ageMaxInput.setAttribute('required', 'required');
+                    }
+                }
+            });
+        });
+        
+        ageMinInput.addEventListener('input', () => {
+            document.querySelector('input[name="desired_age"][value="any"]').checked = false;
+        });
+        ageMaxInput.addEventListener('input', () => {
+            document.querySelector('input[name="desired_age"][value="any"]').checked = false;
+        });
+
+        /**
+         * その他の休日、休暇、控除の入力欄を動的に表示/非表示
+         */
+        document.getElementById('other-holiday-checkbox').addEventListener('change', (e) => {
+            const input = document.getElementById('other-holiday-input');
+            if (e.target.checked) { input.classList.remove('hidden'); } else { input.classList.add('hidden'); }
+        });
+        
+        const otherVacationCheckboxes = [
+            document.getElementById('vacation-summer'),
+            document.getElementById('vacation-gw'),
+            document.getElementById('vacation-new_year')
+        ];
+        const otherVacationOtherCheckbox = document.getElementById('other-vacation-checkbox');
+        const vacationFieldsContainer = document.getElementById('vacation-fields-container');
+
+        otherVacationCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const vacationId = e.target.id;
+                let existingInput = document.getElementById(`input-${vacationId}`);
+
+                if (e.target.checked) {
+                    if (!existingInput) {
+                        const newDiv = document.createElement('div');
+                        newDiv.id = `input-${vacationId}`;
+                        newDiv.className = 'flex items-center space-x-2 mt-2';
+                        const labelText = e.target.parentElement.textContent.trim();
+                        newDiv.innerHTML = `
+                            <label class="font-normal w-40">${labelText}</label>
+                            <input type="number" class="form-input flex-1" name="vacation_days_${vacationId.split('-')[1]}" placeholder="平均日数" required>
+                            <span>日</span>
+                        `;
+                        vacationFieldsContainer.appendChild(newDiv);
+                    }
+                } else {
+                    if (existingInput) {
+                        existingInput.remove();
+                    }
+                }
+            });
+        });
+        
+        otherVacationOtherCheckbox.addEventListener('change', (e) => {
+            let existingInput = document.getElementById('input-other-vacation-checkbox');
+            if (e.target.checked) {
+                 if (!existingInput) {
+                    const newDiv = document.createElement('div');
+                    newDiv.id = 'input-other-vacation-checkbox';
+                    newDiv.className = 'flex items-center space-x-2 mt-2';
+                    newDiv.innerHTML = `
+                        <input type="text" class="form-input w-40" name="other_vacation_name" placeholder="休暇名">
+                        <input type="number" class="form-input flex-1" name="other_vacation_days" placeholder="平均日数">
+                        <span>日</span>
+                        <button type="button" class="button remove-button" onclick="removeParent(this)"><i class="fas fa-trash-alt"></i></button>
+                    `;
+                    vacationFieldsContainer.appendChild(newDiv);
+                }
+            } else {
+                if (existingInput) {
+                    existingInput.remove();
+                }
+            }
+        });
+
+        // 社会保険のその他項目追加
+        const otherSocialInsuranceCheckbox = document.getElementById('other-social-insurance-checkbox');
+        const otherSocialInsuranceContainer = document.getElementById('other-social-insurance-container');
+        const addOtherSocialInsuranceBtn = document.getElementById('add-other-social-insurance-btn');
+
+        otherSocialInsuranceCheckbox.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                otherSocialInsuranceContainer.classList.remove('hidden');
+                addOtherSocialInsuranceBtn.classList.remove('hidden');
+                if (otherSocialInsuranceContainer.children.length === 0) {
+                    addOtherSocialInsurance();
+                }
+            } else {
+                otherSocialInsuranceContainer.classList.add('hidden');
+                addOtherSocialInsuranceBtn.classList.add('hidden');
+                otherSocialInsuranceContainer.innerHTML = '';
+            }
+        });
+
+        addOtherSocialInsuranceBtn.addEventListener('click', addOtherSocialInsurance);
+        function addOtherSocialInsurance() {
+            if(otherSocialInsuranceContainer.children.length >= 3) {
+                return;
+            }
+            const newDiv = document.createElement('div');
+            newDiv.className = 'flex items-center space-x-2 mb-2';
+            newDiv.innerHTML = `
+                <input type="text" class="form-input flex-1" name="other_social_insurance_text[]" placeholder="その他に加入する保険">
+                <button type="button" class="button remove-button" onclick="removeParent(this)"><i class="fas fa-trash-alt"></i></button>
+            `;
+            otherSocialInsuranceContainer.appendChild(newDiv);
+        }
+        
+        /**
+         * 給料からの控除の表示切り替えと動的項目追加
+         */
+        const deductionCheckboxes = document.querySelectorAll('input[name="deduction_item"]');
+        const deductionContainer = document.getElementById('deduction-amounts');
+        const deductionMap = {
+            'housing-deduction': '住居費',
+            'utilities-deduction': '水道光熱費',
+            'communication-deduction': '通信費',
+        };
+
+        deductionCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const deductionId = e.target.id;
+                let existingInput = document.getElementById(`deduction-field-${deductionId}`);
+
+                if (e.target.checked) {
+                    if (!existingInput) {
+                        const newDiv = document.createElement('div');
+                        newDiv.id = `deduction-field-${deductionId}`;
+                        newDiv.className = 'flex flex-wrap items-center space-x-2 space-y-2 md:space-y-0';
+                        
+                        const deductionName = e.target.parentElement.querySelector('label').textContent;
+                        
+                        let inputHtml = '';
+                        if (deductionId === 'other-deduction-checkbox') {
+                             inputHtml = `
+                                <input type="text" class="form-input flex-1" name="other_deduction_name[]" placeholder="控除項目名">
+                            `;
+                        } else {
+                            inputHtml = `
+                                <label class="font-normal text-sm w-32">${deductionName}</label>
+                            `;
+                        }
+                        
+                        newDiv.innerHTML = `
+                            ${inputHtml}
+                            <div class="flex items-center">
+                                <input type="number" class="form-input w-40" name="deduction_amount[]" placeholder="予定金額">
+                                <span class="ml-2">円</span>
+                            </div>
+                            <div class="radio-group">
+                                <div class="radio-item"><input type="radio" name="deduction_type_${deductionId}" value="fixed">固定</div>
+                                <div class="radio-item"><input type="radio" name="deduction_type_${deductionId}" value="actual">実費</div>
+                            </div>
+                            ${deductionId === 'other-deduction-checkbox' ? `<button type="button" class="button remove-button" onclick="removeParent(this)"><i class="fas fa-trash-alt"></i></button>` : ''}
+                        `;
+                        deductionContainer.appendChild(newDiv);
+                    }
+                } else {
+                    if (existingInput) {
+                        existingInput.remove();
+                    }
+                }
+            });
+        });
+
+        // 控除のその他項目は3つまで追加可能
+        const otherDeductionCheckbox = document.getElementById('other-deduction-checkbox');
+        otherDeductionCheckbox.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                addOtherDeductionItem();
+            } else {
+                const elements = document.querySelectorAll('#deduction-amounts .other-deduction-item');
+                elements.forEach(el => el.remove());
+            }
+        });
+
+        function addOtherDeductionItem() {
+            const currentCount = document.querySelectorAll('#deduction-amounts .other-deduction-item').length;
+            if (currentCount >= 3) return;
+
+            const newDiv = document.createElement('div');
+            newDiv.className = 'other-deduction-item flex flex-wrap items-center space-x-2 space-y-2 md:space-y-0 mt-2';
+            newDiv.innerHTML = `
+                <input type="text" class="form-input flex-1" name="other_deduction_name[]" placeholder="控除項目名">
+                <div class="flex items-center">
+                    <input type="number" class="form-input w-40" name="deduction_amount[]" placeholder="予定金額">
+                    <span class="ml-2">円</span>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-item"><input type="radio" name="deduction_type_other_${currentCount}" value="fixed">固定</div>
+                    <div class="radio-item"><input type="radio" name="deduction_type_other_${currentCount}" value="actual">実費</div>
+                </div>
+                <button type="button" class="button remove-button" onclick="removeParent(this)"><i class="fas fa-trash-alt"></i></button>
+            `;
+            otherDeductionContainer.appendChild(newDiv);
+        }
+
+        // --- フォームデータの計算関数 ---
+        const annualHolidaysInput = document.getElementById('annual-holidays');
+        const dailyWorkingHoursHour = document.getElementById('daily-working-hours-hour');
+        const dailyWorkingHoursMinuteSelect = document.getElementById('daily-working-hours-minute-select');
+        const annualWorkingHoursOutput = document.getElementById('annual-working-hours');
+
+        function calculateAnnualWorkingHours() {
+            const holidays = parseInt(annualHolidaysInput.value, 10) || 0;
+            const dailyHours = (parseInt(dailyWorkingHoursHour.value, 10) || 0) + (parseInt(dailyWorkingHoursMinuteSelect.value, 10) || 0) / 60;
+            const workingDays = 365 - holidays;
+            const totalHours = workingDays * dailyHours;
+
+            let resultHours = Math.floor(totalHours);
+            let resultMinutes = Math.round((totalHours - resultHours) * 60);
+
+            if (resultMinutes >= 60) {
+                resultHours += Math.floor(resultMinutes / 60);
+                resultMinutes = resultMinutes % 60;
+            }
+
+            const formattedHours = String(resultHours).padStart(2, '0');
+            const formattedMinutes = String(resultMinutes).padStart(2, '0');
+
+            annualWorkingHoursOutput.textContent = isNaN(totalHours) || totalHours < 0 ? '00:00時間' : `${formattedHours}:${formattedMinutes}時間`;
+        }
+        
+        annualHolidaysInput.addEventListener('input', calculateAnnualWorkingHours);
+        dailyWorkingHoursHour.addEventListener('input', calculateAnnualWorkingHours);
+        dailyWorkingHoursMinuteSelect.addEventListener('change', calculateAnnualWorkingHours);
+
+        const basicWageAmount = document.getElementById('basic-wage-amount');
+        const wageCalculationNote = document.getElementById('wage-calculation-note');
+        const wageTypeRadios = document.querySelectorAll('input[name="basic_wage_type"]');
+
+        function calculateWage() {
+            const wage = parseInt(basicWageAmount.value, 10) || 0;
+            const annualHolidays = parseInt(annualHolidaysInput.value, 10) || 0;
+            const dailyHours = (parseInt(dailyWorkingHoursHour.value, 10) || 0) + (parseInt(dailyWorkingHoursMinuteSelect.value, 10) || 0) / 60;
+            const selectedWageType = document.querySelector('input[name="basic_wage_type"]:checked').value;
+            
+            let result = '';
+            if (selectedWageType === 'monthly') {
+                const monthlyWorkingDays = annualHolidays < 365 ? (365 - annualHolidays) / 12 : 0;
+                const monthlyWorkingHours = dailyHours * monthlyWorkingDays;
+                const hourlyWage = monthlyWorkingHours > 0 ? wage / monthlyWorkingHours : 0;
+                result = `月給の場合の1時間当たりの概算額：${Math.round(hourlyWage)}円`;
+            } else if (selectedWageType === 'daily') {
+                const hourlyWage = dailyHours > 0 ? wage / dailyHours : 0;
+                result = `日給の場合の1時間当たりの概算額：${Math.round(hourlyWage)}円`;
+            } else if (selectedWageType === 'hourly') {
+                const monthlyWorkingDays = annualHolidays < 365 ? (365 - annualHolidays) / 12 : 0;
+                const monthlyWorkingHours = dailyHours * monthlyWorkingDays;
+                const monthlyWage = wage * monthlyWorkingHours;
+                result = `時給の場合の1ヶ月当たりの概算額：${Math.round(monthlyWage)}円`;
+            }
+            wageCalculationNote.textContent = isNaN(Math.round(wage)) ? '' : result;
+        }
+
+        basicWageAmount.addEventListener('input', calculateWage);
+        annualHolidaysInput.addEventListener('input', calculateWage);
+        dailyWorkingHoursHour.addEventListener('input', calculateWage);
+        dailyWorkingHoursMinuteSelect.addEventListener('change', calculateWage);
+        wageTypeRadios.forEach(radio => radio.addEventListener('change', calculateWage));
+
+        // --- 動的な項目追加・削除関数 ---
+        function addExecutive() {
+            const container = document.getElementById('executives-container');
+            if (container.children.length < 10) {
+                const newExecutive = document.createElement('div');
+                newExecutive.className = 'flex flex-wrap items-center space-x-0 md:space-x-2 mb-2 space-y-2 md:space-y-0';
+                newExecutive.innerHTML = `
+                    <input type="text" class="form-input flex-1" name="executive_name[]" placeholder="氏名" required>
+                    <input type="text" class="form-input flex-1" name="executive_kana[]" placeholder="フリガナ" required>
+                    <input type="text" class="form-input flex-1" name="executive_position[]" placeholder="役職" required>
+                    <button type="button" class="button remove-button" onclick="removeParent(this)"><i class="fas fa-trash-alt"></i></button>
+                `;
+                container.appendChild(newExecutive);
+            }
+        }
+        
+        // グローバルスコープに公開
+        window.addExecutive = addExecutive;
+
+        function removeParent(button) {
+            button.closest('.flex').remove();
+        }
+        // グローバルスコープに公開
+        window.removeParent = removeParent;
+
+        // --- フォームのプルダウンメニューの初期化 ---
+        
+        function populateDaySelect(selectId) {
+            const selectElement = document.getElementById(selectId);
+            selectElement.innerHTML = '<option value="">選択してください</option>';
+            const days = [1, 5, 10, 15, 20, 25, "月末"];
+            days.forEach(day => {
+                const option = document.createElement('option');
+                option.value = day;
+                option.textContent = day + (day !== "月末" ? '日' : '');
+                selectElement.appendChild(option);
+            });
+        }
+        
+        function populateMinuteSelect(selectId) {
+            const selectElement = document.getElementById(selectId);
+            selectElement.innerHTML = '';
+            for (let i = 0; i < 60; i += 1) {
+                const option = document.createElement('option');
+                const value = String(i).padStart(2, '0');
+                option.value = value;
+                option.textContent = value;
+                selectElement.appendChild(option);
+            }
+        }
+
+        function populateBreakTimeSelect(selectId) {
+            const selectElement = document.getElementById(selectId);
+            selectElement.innerHTML = '<option value="">選択してください</option>';
+            for (let i = 45; i <= 200; i += 5) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i}分`;
+                selectElement.appendChild(option);
+            }
+        }
+        
+        function populatePrefectureSelect(selectId) {
+            const selectElement = document.getElementById(selectId);
+            prefectures.forEach(pref => {
+                const option = document.createElement('option');
+                option.value = pref;
+                option.textContent = pref;
+                selectElement.appendChild(option);
+            });
+        }
+
+        function populateJacOrganizationSelect(selectId) {
+            const selectElement = document.getElementById(selectId);
+            jacOrganizations.forEach(org => {
+                const option = document.createElement('option');
+                option.value = org;
+                option.textContent = org;
+                selectElement.appendChild(option);
+            });
+        }
+        
+        function populateJobFieldSelect() {
+            const selectElement = document.getElementById('field-select');
+            for (const field in categories) {
+                const option = document.createElement('option');
+                option.value = field;
+                option.textContent = field;
+                selectElement.appendChild(option);
+            }
+        }
+
+        /**
+         * ページ読み込み時の初期化処理
+         */
+        window.onload = function() {
+            populateDaySelect('payment-close-day-select');
+            populateDaySelect('payment-day-select');
+            populateMinuteSelect('start-minute-select');
+            populateMinuteSelect('end-minute-select');
+            populateMinuteSelect('daily-working-hours-minute-select');
+            populateBreakTimeSelect('break-time-select');
+            populatePrefectureSelect('prefecture-select');
+            populateJacOrganizationSelect('jac-organization-select');
+            populateJobFieldSelect();
+            
+            // ページ読み込み後にイベントリスナーを設定
+            setupEventListeners();
+        };
+
+        function setupEventListeners() {
+            // --- 郵便番号検索機能 (ボタン削除に伴い、入力確定時に自動検索する) ---
+            const postalCodeInput = document.getElementById('postal-code');
+            postalCodeInput.addEventListener('blur', (e) => {
+                if (e.target.value.length === 7) {
+                    searchPostalCode('postal-code', 'headquarters-address');
+                }
+            });
+            const workplacePostalCodeInput = document.getElementById('workplace-postal-code');
+            if (workplacePostalCodeInput) {
+                workplacePostalCodeInput.addEventListener('blur', (e) => {
+                    if (e.target.value.length === 7) {
+                        searchPostalCode('workplace-postal-code', 'workplace-address');
+                    }
+                });
+            }
+
+            // --- 電話番号の自動ハイフン挿入機能 ---
+            const phoneNumberInput = document.getElementById('phone_number');
+            const contactPhoneInput = document.getElementById('contact_phone');
+            const workplacePhoneInput = document.getElementById('workplace-phone');
+            
+            [phoneNumberInput, contactPhoneInput, workplacePhoneInput].forEach(input => {
+                if (input) {
+                    input.addEventListener('input', (e) => {
+                        const target = e.target;
+                        let value = target.value.replace(/\D/g, '');
+                        if (value.length > 11) value = value.slice(0, 11);
+                        
+                        if (value.startsWith('0')) {
+                            if (value.length > 3 && value.length <= 6) {
+                                value = value.slice(0, 3) + '-' + value.slice(3);
+                            } else if (value.length > 6 && value.length <= 10) {
+                                value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6);
+                            } else if (value.length > 10) {
+                                value = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7);
+                            }
+                        } else {
+                            if (value.length > 4 && value.length <= 8) {
+                                value = value.slice(0, 4) + '-' + value.slice(4);
+                            } else if (value.length > 8) {
+                                value = value.slice(0, 4) + '-' + value.slice(4, 8) + '-' + value.slice(8);
+                            }
+                        }
+                        target.value = value;
+                    });
+                }
+            });
+            
+            // --- フォーム送信処理 ---
+            const form = document.getElementById('hearing-form-main');
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // フォームのバリデーション
+                if (!form.checkValidity()) {
+                    showSuccessMessage('必須項目が入力されていません。');
+                    return;
+                }
+
+                // FormDataを作成
+                const formData = new FormData(form);
+                const data = {};
+                for (let [key, value] of formData.entries()) {
+                    data[key] = value;
+                }
+                
+                // Formspreeへの送信
+                try {
+                    const response = await fetch("https://formspree.io/f/xeozwpjd", {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        showSuccessMessage('フォームが正常に送信されました！');
+                        form.reset();
+                    } else {
+                        throw new Error('フォームの送信に失敗しました。');
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    showSuccessMessage('フォームの送信に失敗しました。');
+                }
+            });
+        }
+        
+        /**
+         * 成功メッセージボックスの表示
+         */
+        function showSuccessMessage(message) {
+            const messageBox = document.getElementById('success-message-box');
+            const messageText = messageBox.querySelector('p');
+            messageText.textContent = message;
+            messageBox.classList.add('show');
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 3000); // 3秒後に非表示
+        }
+
+        /**
+         * 郵便番号検索機能
+         */
+        function searchPostalCode(postalCodeId, addressId) {
+            const postalCode = document.getElementById(postalCodeId).value.replace(/-/g, '');
+            if (postalCode.length !== 7 || !postalCode.match(/^\d{7}$/)) {
+                showSuccessMessage('7桁の正しい郵便番号を入力してください。');
+                return;
+            }
+            
+            // エクスポネンシャルバックオフを伴う再試行ロジック
+            async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(url, options);
+                        if (response.ok) {
+                            return response;
+                        }
+                        // 4xx or 5xx response is still a failure, so we throw an error.
+                        throw new Error(`Failed to fetch address. Server responded with status ${response.status}`);
+                    } catch (error) {
+                        if (i < retries - 1) {
+                            await new Promise(resolve => setTimeout(resolve, delay * (2 ** i)));
+                        } else {
+                            throw error;
+                        }
+                    }
+                }
+            }
+
+            fetchWithRetry(`https://api.zipaddress.net/?zipcode=${postalCode}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        const result = data.results[0];
+                        const address = `${result.address1}${result.address2}${result.address3}`;
+                        document.getElementById(addressId).value = address;
+                    } else {
+                        showSuccessMessage('該当する住所が見つかりませんでした。');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching address:', error);
+                    showSuccessMessage('住所の検索中にエラーが発生しました。');
+                });
+        }
+
+    </script>
+</body>
+</html>
