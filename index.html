@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>必要書類アップロード</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans JP', 'Inter', sans-serif; }
+        input[type="file"]::file-selector-button {
+            background-color: #4f46e5; color: white; border: none; padding: 0.5rem 1rem;
+            border-radius: 0.375rem; cursor: pointer; transition: background-color 0.2s;
+        }
+        input[type="file"]::file-selector-button:hover { background-color: #4338ca; }
+        a { color: #3b82f6; }
+        a:hover { color: #2563eb; }
+        a u { text-decoration: underline; }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-10 space-y-8">
+        
+        <div id="main-content">
+            <!-- ヘッダー -->
+            <div>
+                <h1 id="form-title" class="text-2xl md:text-3xl font-bold text-gray-800 text-center">必要書類のご提出</h1>
+                <p class="text-gray-600 text-center mt-2">ご依頼いたしました書類のアップロードをお願いいたします。</p>
+            </div>
+
+            <!-- 注意事項 -->
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-8 rounded-r-lg">
+                <div class="flex">
+                    <div class="py-1">
+                        <svg class="fill-current h-6 w-6 text-yellow-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zM9 5v6h2V5H9zm0 8h2v2H9v-2z"/></svg>
+                    </div>
+                    <div>
+                        <p class="font-bold">アップロード前にお読みください</p>
+                        <p class="text-sm">
+                            ・このページには一時保存機能はありません。すべての書類を揃えてからアップロードを開始してください。<br>
+                            ・アップロード可能なファイル形式は <strong>PDF, JPG, PNG, HEIC</strong> です。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 書類アップロードフォーム -->
+            <form id="upload-form" action="https://formspree.io/f/mnnbqzzq" method="POST" enctype="multipart/form-data">
+                
+                <!-- 動的に生成される書類リスト -->
+                <div id="document-list" class="space-y-6 mt-8">
+                    <!-- JavaScriptによってアップロード欄がここに挿入されます -->
+                </div>
+
+                <!-- 送信ボタン -->
+                <div class="mt-10 text-center">
+                    <button type="submit" class="bg-green-600 text-white font-bold py-3 px-12 rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-transform transform hover:scale-105">
+                        すべての書類を送信する
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 送信完了メッセージ -->
+        <div id="thank-you-message" class="hidden text-center p-8 bg-green-50 rounded-lg border border-green-200">
+            <h2 class="text-2xl font-bold text-green-800">ご提出ありがとうございます！</h2>
+            <p class="text-green-700 mt-2">書類の確認には数日かかる場合がございます。担当者からの連絡をお待ちください。</p>
+        </div>
+
+        <!-- エラーメッセージ -->
+        <div id="error-page" class="hidden text-center p-8 bg-red-50 rounded-lg border border-red-200">
+             <h2 class="text-2xl font-bold text-red-800">無効なURLです</h2>
+            <p class="text-red-700 mt-2">このページのURLが正しくないようです。担当者にご確認ください。</p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 書類データベース（admin.htmlと全く同じもの） ---
+        const allDocuments = [
+            // --- 共通書類 ---
+            { id: 'koyou_keiyakusho', title: '雇用契約書及び雇用条件書', description: '指定のフォーマットで作成。', category: 'common' },
+            { id: '36_kyoutei', title: '36協定書', description: '期限内。労働基準監督署の受付印があるもの。', category: 'common' },
+            { id: 'shugyo_kisoku', title: '就業規則', description: '従業員10人以上の場合必須。労働基準監督署の受付印があるもの。', category: 'common' },
+            { id: 'henkei_rodo', title: '変形労働協定書＆年間カレンダー', description: '変形労働時間制（週や月単位で労働時間を調整する制度）を採用している場合。労働基準監督署の受付印があるもの。', category: 'common' },
+            { id: 'tokutei_gensen', title: '特定技能生の源泉徴収票', description: '直近で発行された最新のもの。', category: 'common' },
+            { id: 'tokutei_shotoku_kazei', title: '特定技能生の所得・課税証明書', description: '直近1年度分。代理取得には委任状が必要な場合があるため、事前に市区町村役場へ確認。', category: 'common' },
+            { id: 'nouzei_shomei_nenkan', title: '特定技能生の納税証明書', description: '1年間の納税が完了している直近年度のもの。代理取得には委任状が必要な場合があるため、事前に市区町村役場へ確認。所得・課税証明書と年度が一致しない場合あり。', category: 'common' },
+            { id: 'kenkou_shindan', title: '特定技能生の健康診断結果表', description: '直近１年以内のもの。介護分野で夜勤を行う場合は、半期に一度の診断書を提出。', category: 'common' },
+            
+            // --- 法人向け書類 ---
+            { id: 'houjin_rireki_jiko', title: '<法人>履歴事項全部証明書', description: '法務局で取得。オンライン取得も可能。<a href="https://www.touki-kyoutaku-online.moj.go.jp/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">オンライン申請はこちら</a>', category: 'corporate' },
+            { id: 'houjin_kessan_hokoku', title: '<法人>決算報告書', description: '直近3期分。貸借対照表、損益計算書など一式。※事前のヒアリングフォームでご入力済の場合は提出不要。', category: 'corporate' },
+            { id: 'houjin_yakuin_juminhyo', title: '<法人>役員の住民票', description: '受け入れ業務に関与する役員全員分。※本籍地記載必要、マイナンバー記載不要', category: 'corporate' },
+            { id: 'houjin_nouzei_shomei_3', title: '<法人>納税証明書（その3）', description: '税務署発行。<br>※該当税目：①源泉所得税及び復興特別所得税 ②法人税 ③消費税及び地方消費税<br>※納税の猶予等を受けている場合は、その旨の記載がある証明書及び未納がある税目の納税証明書（その１）も必要。', category: 'corporate' },
+            { id: 'houjin_juminzei_nouzei_shomei', title: '<法人>法人住民税の納税証明書', description: '直近1年度分。市区町村発行。', category: 'corporate' },
+            { id: 'roudo_hoken_nofu', title: '<法人>労働保険料等納付証明書', description: '未納なし証明。労働局で発行。<a href="https://www.mhlw.go.jp/stf/newpage_03993.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">オンライン発行はこちら</a>', category: 'corporate' },
+            { id: 'shakai_hoken_nonyu', title: '<法人>社会保険料納入状況照会回答票', description: '年金事務所で発行。健康保険・厚生年金保険料領収証書の写しを提出する場合は省略可。', category: 'corporate' },
+            { id: 'kenkou_hoken_ryoshusho', title: '<法人>健康保険・厚生年金保険料領収書の写し', description: '申請日の属する月の前々月までの24か月分。社会保険料納入状況照会回答票を提出する場合は省略可。', category: 'corporate' },
+
+            // --- 個人事業主向け書類 ---
+            { id: 'kojin_juminhyo', title: '<個人事業主>個人事業主の住民票', description: '3カ月以内に発行のもの。※本籍地記載必要、マイナンバー記載不要', category: 'individual' },
+            { id: 'kojin_nouzei_shomei_3_kojin', title: '<個人事業主>納税証明書（その３）', description: '市区町村発行。', category: 'individual' },
+            { id: 'kojin_juminzei_nouzei_shomei', title: '<個人事業主>個人住民税の納税証明書', description: '直近1年度分。市区町村発行。', category: 'individual' },
+            { id: 'kojin_rousai_hoken', title: '<個人事業主>労災保険に代わる民間保険の加入を証明する資料', description: '労災保険の適用事業所でない場合に必要。', category: 'individual' },
+            { id: 'kokumin_kenkou_hoken', title: '<個人事業主>国民健康保険被保険者証の写し', description: '記号・番号をマスキング。', category: 'individual' },
+            { id: 'kokumin_kenkou_hoken_nofu', title: '<個人事業主>国民健康保険料（税）納付証明書', description: '市区町村発行。直近１年度分。記号・番号をマスキング。', category: 'individual' },
+            { id: 'hihokensha_kiroku_shokai', title: '<個人事業主>被保険者記録照会回答票', description: '日本年金機構又は年金事務所で取得。国民年金保険料領収証書の写しを提出する場合は省略可。※基礎年金番号をマスキング。<a href="https://www.nenkin.go.jp/n_net/introduction/questionnaire.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">オンライン申請も可能です</a>', category: 'individual' },
+            { id: 'hihokensha_kiroku_shokai_nofu2', title: '<個人事業主>被保険者記録照会（納付Ⅱ）', description: '国民年金保険料領収証書を提出する場合は省略可。※基礎年金番号をマスキング。※2025年4月申請の場合は2023年3月～2025年2月分が必要。<a href="https://www.nenkin.go.jp/service/tokuteiginou/syoruikouhu.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">オンラインでも申請可能です</a>', category: 'individual' },
+            { id: 'kokumin_nenkin_ryoshusho', title: '<個人事業主>国民年金保険料領収証書', description: '直近2年分。被保険者記録照会回答票を提出する場合は省略可。', category: 'individual' },
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const companyName = params.get('company');
+            const docIds = params.get('docs')?.split(',');
+
+            const mainContent = document.getElementById('main-content');
+            const thankYouMessage = document.getElementById('thank-you-message');
+            const errorPage = document.getElementById('error-page');
+            const formTitle = document.getElementById('form-title');
+            const documentListContainer = document.getElementById('document-list');
+            const uploadForm = document.getElementById('upload-form');
+            
+            if (window.location.search.includes("form-submitted=true")) {
+                mainContent.style.display = 'none';
+                thankYouMessage.style.display = 'block';
+                return;
+            }
+
+            if (!companyName || !docIds || docIds.length === 0) {
+                mainContent.style.display = 'none';
+                errorPage.style.display = 'block';
+                return;
+            }
+
+            formTitle.textContent = `${decodeURIComponent(companyName)} 様 書類のご提出`;
+
+            const companyInfoHtml = `
+                <input type="hidden" name="会社名" value="${decodeURIComponent(companyName)}">
+                <div>
+                    <label for="contact_person" class="block text-sm font-medium text-gray-700 mb-1">ご担当者名</label>
+                    <input type="text" name="ご担当者名" id="contact_person" required class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <hr class="my-6"/>
+            `;
+            documentListContainer.insertAdjacentHTML('afterbegin', companyInfoHtml);
+
+            docIds.forEach(id => {
+                const doc = allDocuments.find(d => d.id === id);
+                if (doc) {
+                    const docElement = `
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                            <label for="${doc.id}" class="block text-md font-semibold text-gray-800">${doc.title}</label>
+                            <p class="text-sm text-gray-500 mt-1 mb-3">${doc.description || ''}</p>
+                            <input type="file" id="${doc.id}" name="${doc.title}" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                        </div>
+                    `;
+                    documentListContainer.insertAdjacentHTML('beforeend', docElement);
+                }
+            });
+            
+            uploadForm.addEventListener('submit', function(e) {
+                const redirectUrl = new URL(uploadForm.action);
+                redirectUrl.searchParams.append('_next', window.location.origin + window.location.pathname + '?form-submitted=true');
+                uploadForm.action = redirectUrl.toString();
+            });
+        });
+    </script>
+</body>
+</html>

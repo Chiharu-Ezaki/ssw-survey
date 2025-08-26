@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者用コントロールパネル</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .card { background-color: #ffffff; border: 1px solid #e5e7eb; }
+        .btn { transition: all 0.2s ease-in-out; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .checkbox-label { background-color: #f9fafb; border: 1px solid #e5e7eb; }
+        .checkbox-label:has(input:checked) { background-color: #e0e7ff; border-color: #4f46e5; }
+        .notification { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); transition: opacity 0.5s, transform 0.5s; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="container max-w-4xl mx-auto">
+        <div class="card p-8 rounded-2xl shadow-lg">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2 text-center">書類提出依頼URLジェネレーター</h1>
+            <p class="text-gray-600 text-center mb-8">提出を依頼する書類を選択し、クライアント様専用のURLを生成します。</p>
+
+            <!-- Step 1: Company Name -->
+            <div class="mb-6">
+                <label for="companyName" class="block text-lg font-medium text-gray-700 mb-2">1. 会社名を入力</label>
+                <input type="text" id="companyName" class="form-input rounded-lg w-full focus:ring-indigo-500 focus:border-indigo-500" placeholder="例：株式会社〇〇建設">
+            </div>
+
+            <!-- Step 2: Document Selection -->
+            <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-700 mb-3">2. 提出を依頼する書類を選択</h3>
+                <div class="space-y-4" id="document-checkboxes">
+                    <!-- JavaScriptがここにチェックボックスを生成します -->
+                </div>
+            </div>
+
+            <!-- Step 3: Generate URL -->
+            <div class="mt-8 text-center">
+                <button type="button" id="generateBtn" class="btn bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg w-full md:w-auto">
+                    <i class="fas fa-link mr-2"></i>アップロードURLを生成
+                </button>
+            </div>
+
+            <!-- Result Display -->
+            <div id="result" class="mt-8 hidden">
+                <h3 class="text-lg font-medium text-gray-700 mb-2">生成されたURL</h3>
+                <div class="flex items-center space-x-2 bg-gray-100 p-2 rounded-lg">
+                    <input type="text" id="generatedUrl" class="form-input bg-gray-100 border-transparent focus:ring-0 w-full" readonly>
+                    <button id="copyBtn" class="button bg-gray-600 hover:bg-gray-700 text-white py-2 px-4">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <p id="copy-feedback" class="text-green-600 text-sm mt-2 hidden">コピーしました！</p>
+            </div>
+        </div>
+    </div>
+    <div id="message-box" class="notification hidden px-4 py-3 rounded-lg" role="alert">
+        <strong class="font-bold"></strong>
+        <span class="block sm:inline" id="message-text"></span>
+    </div>
+
+    <script>
+        const allDocuments = [
+            { id: 'koyou_keiyakusho', title: '雇用契約書及び雇用条件書' },
+            { id: '36_kyoutei', title: '36協定書' },
+            { id: 'shugyo_kisoku', title: '就業規則' },
+            { id: 'henkei_rodo', title: '変形労働協定書＆年間カレンダー' },
+            { id: 'tokutei_gensen', title: '特定技能生の源泉徴収票' },
+            { id: 'tokutei_shotoku_kazei', title: '特定技能生の所得・課税証明書' },
+            { id: 'nouzei_shomei_nenkan', title: '特定技能生の納税証明書' },
+            { id: 'kenkou_shindan', title: '特定技能生の健康診断結果表' },
+            { id: 'houjin_rireki_jiko', title: '<法人>履歴事項全部証明書' },
+            { id: 'houjin_kessan_hokoku', title: '<法人>決算報告書' },
+            { id: 'houjin_yakuin_juminhyo', title: '<法人>役員の住民票' },
+            { id: 'houjin_nouzei_shomei_3', title: '<法人>納税証明書（その3）' },
+            { id: 'houjin_juminzei_nouzei_shomei', title: '<法人>法人住民税の納税証明書' },
+            { id: 'roudo_hoken_nofu', title: '<法人>労働保険料等納付証明書' },
+            { id: 'shakai_hoken_nonyu', title: '<法人>社会保険料納入状況回答票' },
+            { id: 'kenkou_hoken_ryoshusho', title: '<法人>健康保険・厚生年金保険料領収書の写し' },
+            { id: 'kojin_juminhyo', title: '<個人事業主>個人事業主の住民票' },
+            { id: 'kojin_nouzei_shomei_3_kojin', title: '<個人事業主>納税証明書（その３）' },
+            { id: 'kojin_juminzei_nouzei_shomei', title: '<個人事業主>個人住民税の納税証明書' },
+            { id: 'kojin_rousai_hoken', title: '<個人事業主>労災保険に代わる民間保険の加入を証明する資料' },
+            { id: 'kokumin_kenkou_hoken', title: '<個人事業主>国民健康保険被保険者証の写し' },
+            { id: 'kokumin_kenkou_hoken_nofu', title: '<個人事業主>国民健康保険料（税）納付証明書' },
+            { id: 'hihokensha_kiroku_shokai', title: '<個人事業主>被保険者記録照会回答票' },
+            { id: 'hihokensha_kiroku_shokai_nofu2', title: '<個人事業主>被保険者記録照会（納付Ⅱ）' },
+            { id: 'kokumin_nenkin_ryoshusho', title: '<個人事業主>国民年金保険料領収証書' },
+            { id: 'kensetsu_kyokasho', title: '<建設業>建設業許可証' },
+            { id: 'kensetsu_careerup_id', title: '<建設業>キャリアアップID証明書' },
+            { id: 'kensetsu_hellowork_kyujin', title: '<建設業>ハローワーク求人票' },
+            { id: 'kensetsu_jac_kanyuu', title: '<建設業>JAC等協会員加入証' },
+            { id: 'kensetsu_nihonjin_shokureki', title: '<建設業>同等の技能を有する日本人の職歴' },
+            { id: 'kensetsu_nihonjin_chingin', title: '<建設業>同等の技能を有する日本人の賃金台帳' },
+            { id: 'kensetsu_juyojiko_setsumei', title: '<建設業>重要事項説明書' },
+            { id: 'hyojun_hoshu', title: '<建設業>社会保険標準報酬月額決定通知書' },
+            { id: 'kaigo_shitei_tsuchisho', title: '<介護>指定通知書' },
+            { id: 'kyougikai_kanyuu', title: '特定技能分野 協議会加入証' },
+        ];
+
+        function createCheckbox(doc) {
+            return `
+                <label class="checkbox-label p-3 rounded-lg cursor-pointer flex items-center">
+                    <input type="checkbox" class="document-checkbox form-checkbox h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" value="${doc.id}">
+                    <span class="ml-3 text-sm text-gray-700">${doc.title}</span>
+                </label>
+            `;
+        }
+        
+        const container = document.getElementById('document-checkboxes');
+        container.innerHTML = allDocuments.map(createCheckbox).join('');
+
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            const companyName = document.getElementById('companyName').value;
+            if (!companyName) {
+                alert('会社名を入力してください。');
+                return;
+            }
+
+            const selectedDocs = Array.from(document.querySelectorAll('.document-checkbox:checked')).map(cb => cb.value);
+            if (selectedDocs.length === 0) {
+                alert('書類を1つ以上選択してください。');
+                return;
+            }
+            
+            // このURLは、upload.htmlをGitHub Pagesで公開したときのURLに合わせてください。
+            // 例: https://<あなたのユーザー名>.github.io/<リポジトリ名>/
+            const baseUrl = 'https://chiharu-ezaki.github.io/ssw-survey/'; // ★ここはご自身のGitHub PagesのURLに合わせてください
+            
+            const params = new URLSearchParams();
+            params.append('company', companyName);
+            params.append('docs', selectedDocs.join(','));
+            
+            const finalUrl = `${baseUrl}?${params.toString()}`;
+            
+            document.getElementById('generatedUrl').value = finalUrl;
+            document.getElementById('result').classList.remove('hidden');
+        });
+        
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            const urlInput = document.getElementById('generatedUrl');
+            urlInput.select();
+            urlInput.setSelectionRange(0, 99999);
+            try {
+                document.execCommand('copy');
+                const feedback = document.getElementById('copy-feedback');
+                feedback.classList.remove('hidden');
+                setTimeout(() => feedback.classList.add('hidden'), 2000);
+            } catch (err) {
+                console.error('コピーに失敗しました: ', err);
+                alert('コピーに失敗しました。手動でコピーしてください。');
+            }
+        });
+    </script>
+</body>
+</html>
