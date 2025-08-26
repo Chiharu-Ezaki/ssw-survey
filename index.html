@@ -48,7 +48,8 @@
             </div>
 
             <!-- 書類アップロードフォーム -->
-            <form id="upload-form" action="https://formspree.io/f/mnnbqzzq" method="POST" enctype="multipart/form-data">
+            <!-- ★正しいURLに修正しました -->
+            <form id="upload-form" action="https://formspree.io/f/mblajajb" method="POST" enctype="multipart/form-data">
                 
                 <!-- 動的に生成される書類リスト -->
                 <div id="document-list" class="space-y-6 mt-8">
@@ -61,6 +62,9 @@
                         すべての書類を送信する
                     </button>
                 </div>
+
+                <!-- 送信完了後にこのページに戻るための隠しフィールド -->
+                <input type="hidden" name="_next" value="?form-submitted=true">
             </form>
         </div>
 
@@ -86,7 +90,7 @@
             { id: '36_kyoutei', title: '36協定書', description: '期限内。労働基準監督署の受付印があるもの。', category: 'common' },
             { id: 'shugyo_kisoku', title: '就業規則', description: '従業員10人以上の場合必須。労働基準監督署の受付印があるもの。', category: 'common' },
             { id: 'henkei_rodo', title: '変形労働協定書＆年間カレンダー', description: '変形労働時間制（週や月単位で労働時間を調整する制度）を採用している場合。労働基準監督署の受付印があるもの。', category: 'common' },
-            { id: 'tokutei_gensen', title: '特定技能生の源泉徴収票', description: '直近で発行された最新のもの。', category: 'common' },
+            { id: 'tokutei_gensen', title: '特定技能生の源泉徴取票', description: '直近で発行された最新のもの。', category: 'common' },
             { id: 'tokutei_shotoku_kazei', title: '特定技能生の所得・課税証明書', description: '直近1年度分。代理取得には委任状が必要な場合があるため、事前に市区町村役場へ確認。', category: 'common' },
             { id: 'nouzei_shomei_nenkan', title: '特定技能生の納税証明書', description: '1年間の納税が完了している直近年度のもの。代理取得には委任状が必要な場合があるため、事前に市区町村役場へ確認。所得・課税証明書と年度が一致しない場合あり。', category: 'common' },
             { id: 'kenkou_shindan', title: '特定技能生の健康診断結果表', description: '直近１年以内のもの。介護分野で夜勤を行う場合は、半期に一度の診断書を提出。', category: 'common' },
@@ -156,17 +160,11 @@
                         <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
                             <label for="${doc.id}" class="block text-md font-semibold text-gray-800">${doc.title}</label>
                             <p class="text-sm text-gray-500 mt-1 mb-3">${doc.description || ''}</p>
-                            <input type="file" id="${doc.id}" name="${doc.title}" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                            <input type="file" id="${doc.id}" name="${doc.id}" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
                         </div>
                     `;
                     documentListContainer.insertAdjacentHTML('beforeend', docElement);
                 }
-            });
-            
-            uploadForm.addEventListener('submit', function(e) {
-                const redirectUrl = new URL(uploadForm.action);
-                redirectUrl.searchParams.append('_next', window.location.origin + window.location.pathname + '?form-submitted=true');
-                uploadForm.action = redirectUrl.toString();
             });
         });
     </script>
