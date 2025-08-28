@@ -62,8 +62,12 @@
                     </button>
                 </div>
 
-                <!-- 送信完了後にこのページに戻るための隠しフィールド -->
-                <input type="hidden" name="_next" value="?form-submitted=true">
+                <!-- 
+                  ▼▼▼ 修正箇所 ▼▼▼
+                  送信完了後に戻るページのURLを、完全なURL（絶対パス）に変更しました。
+                  これにより、Formspreeは正しく完了ページへリダイレクトできるようになります。
+                -->
+                <input type="hidden" name="_next" value="https://chiharu-ezaki.github.io/ssw-survey/?form-submitted=true">
             </form>
         </div>
 
@@ -169,4 +173,3 @@
     </script>
 </body>
 </html>
-
