@@ -144,6 +144,27 @@
                 return;
             }
 
+            // --- ▼▼▼ 一時保存機能ここから ▼▼▼ ---
+
+            // ローカルストレージ用のユニークなキーを生成します
+            const storageKey = `upload-form-data-${companyName}-${docIds.join('-')}`;
+
+            // 保存されたデータを読み込む関数
+            const loadData = () => {
+                const savedData = localStorage.getItem(storageKey);
+                return savedData ? JSON.parse(savedData) : { contact_person: '', files: {} };
+            };
+
+            // データを保存する関数
+            const saveData = (data) => {
+                localStorage.setItem(storageKey, JSON.stringify(data));
+            };
+
+            // ページ読み込み時に以前のデータを読み込みます
+            let formData = loadData();
+            
+            // --- ▲▲▲ 一時保存機能ここまで ▲▲▲ ---
+
             formTitle.textContent = `${decodeURIComponent(companyName)} 様 書類のご提出`;
 
             const companyInfoHtml = `
@@ -155,6 +176,16 @@
                 <hr class="my-6"/>
             `;
             documentListContainer.insertAdjacentHTML('afterbegin', companyInfoHtml);
+            
+            // --- ▼▼▼ 一時保存機能（担当者名の復元と保存）ここから ▼▼▼ ---
+            const contactPersonInput = document.getElementById('contact_person');
+            contactPersonInput.value = formData.contact_person || '';
+            contactPersonInput.addEventListener('input', (e) => {
+                formData.contact_person = e.target.value;
+                saveData(formData);
+            });
+            // --- ▲▲▲ 一時保存機能（担当者名の復元と保存）ここまで ▲▲▲ ---
+
 
             docIds.forEach(id => {
                 const doc = allDocuments.find(d => d.id === id);
@@ -164,12 +195,39 @@
                             <label for="${doc.id}" class="block text-md font-semibold text-gray-800">${doc.title}</label>
                             <p class="text-sm text-gray-500 mt-1 mb-3">${doc.description || ''}</p>
                             <input type="file" id="${doc.id}" name="${doc.id}" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                            <div id="file-info-${doc.id}" class="text-sm text-gray-600 mt-2"></div>
                         </div>
                     `;
                     documentListContainer.insertAdjacentHTML('beforeend', docElement);
+
+                    // --- ▼▼▼ 一時保存機能（ファイル情報の復元と保存）ここから ▼▼▼ ---
+                    const fileInput = document.getElementById(doc.id);
+                    const fileInfo = document.getElementById(`file-info-${doc.id}`);
+
+                    // 保存されたファイル情報があれば表示します
+                    if (formData.files[doc.id]) {
+                        fileInfo.innerHTML = `以前選択したファイル: ${formData.files[doc.id]} <strong class="text-red-600">(お手数ですが、再度ファイルを選択してください)</strong>`;
+                    }
+                    
+                    // ファイルが選択されたら、情報を保存して表示を更新します
+                    fileInput.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            formData.files[doc.id] = file.name;
+                            saveData(formData);
+                            fileInfo.innerHTML = `選択中のファイル: <span class="font-medium text-indigo-700">${file.name}</span>`;
+                        } else {
+                            // ファイル選択がキャンセルされた場合
+                            delete formData.files[doc.id];
+                            saveData(formData);
+                            fileInfo.innerHTML = '';
+                        }
+                    });
+                    // --- ▲▲▲ 一時保存機能（ファイル情報の復元と保存）ここまで ▲▲▲ ---
                 }
             });
         });
     </script>
 </body>
 </html>
+
